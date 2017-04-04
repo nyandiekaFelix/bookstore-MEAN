@@ -1,3 +1,8 @@
+# environment variables
 .env
-bower_components/
+
+# dependencies
 node_modules
+
+# logs
+npm-debug.log
