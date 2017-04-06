@@ -22,7 +22,7 @@ module.exports = {
                 avatar: avatarUrl
             });
 
-            user.save((err, result) => {
+            user.save((err, result) => { // Why result??
                 if (err) {
                     res.status(500).json({
                         message: err.message
@@ -58,7 +58,7 @@ module.exports = {
     },
 
     getProfile: (req, res) => {
-        User.findById({ _id: req.params.id }, (err, user) => {
+        User.findById({ _id: req.params.userId }, (err, user) => {
             if (err) {
                 res.status(404).send({
                     message: "Could not get user's profile details"
@@ -85,5 +85,9 @@ module.exports = {
                 });
             });
         });
+    },
+
+    getUserUploads: (req, res) => {
+        
     }
 };
