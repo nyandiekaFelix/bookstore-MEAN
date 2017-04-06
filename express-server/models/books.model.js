@@ -6,11 +6,19 @@ const BookSchema = new Schema({
         type: Date,
         default: Date.now  
     },
-    thumbnail: {
-        type: String,
-        default: '' // Placeholder image url here
+    ownerId: {
+        type: Schema.ObjectId,
+        ref: 'User'
     },
+    // thumbnail: {
+    //     type: String,
+    //     default: '' // Placeholder image url here
+    // },
     title: {
+        type: String,
+        required: true
+    },
+    category: {
         type: String,
         required: true
     },
