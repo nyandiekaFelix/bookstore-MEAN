@@ -23,15 +23,27 @@ module.exports = {
     },
 
     getAll: (req, res) => {
-
+        Book.find().sort('-uploadedOn')
+            .populate('ownerId', 'username')
+            .exec((err, books) => {
+                if (err) {
+                    res.send(err);
+                }
+                res.send(books);
+            }); 
     },
 
-    getCategory: (req, res) => {
+    getAllByUser: (req, res) => {
 
     },
 
     getOne: (req, res) => {
         
+    },
+
+
+    getCategory: (req, res) => {
+
     },
 
     updateBook: (req, res) => {
