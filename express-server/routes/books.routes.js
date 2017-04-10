@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 router.post('/upload', booksCtrl.create);
 
 router.get('/all', booksCtrl.getAll);
+router.get('/all/:user_id', booksCtrl.getAllByUser);
 router.get('/:category', booksCtrl.getCategory);
 
 router.get('/:bookId', booksCtrl.getOne);
