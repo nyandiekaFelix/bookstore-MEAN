@@ -9,12 +9,12 @@ router.get('/', (req, res) => {
 
 router.post('/upload', booksCtrl.create);
 
-router.get('/all', booksCtrl.getAll);
-router.get('/all/:user_id', booksCtrl.getAllByUser);
-router.get('/:category', booksCtrl.getCategory);
+router.get('/all', booksCtrl.getAllBooks);
+// router.get('/all/:user_id', booksCtrl.getByUser);
+// router.get('/:category', booksCtrl.getCategory);
 
-router.get('/:bookId', booksCtrl.getOne);
-router.put('/:bookId', booksCtrl.updateBook);
+// router.get('/:bookId', booksCtrl.getOneBook);
+// router.put('/:bookId', booksCtrl.updateBook);
 
 
 module.exports = router;
