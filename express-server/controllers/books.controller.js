@@ -22,7 +22,7 @@ module.exports = {
         });
     },
 
-    getAll: (req, res) => {
+    getAllBooks: (req, res) => {
         Book.find().sort('-uploadedOn')
             .populate('ownerId', 'username')
             .exec((err, books) => {
@@ -33,20 +33,26 @@ module.exports = {
             }); 
     },
 
-    getAllByUser: (req, res) => {
+    // getByUser: (req, res) => {
 
-    },
+    // },
 
     getOne: (req, res) => {
-        
+        Book.findById({ _id: req.params.bookId }, (err, book) => {
+            if (err) {
+                res.send(err)
+            }
+
+            res.send(book);
+        });
     },
 
 
-    getCategory: (req, res) => {
+    // getCategory: (req, res) => {
 
-    },
+    // },
 
-    updateBook: (req, res) => {
+    // updateBook: (req, res) => {
 
-    }
+    // }
 };
