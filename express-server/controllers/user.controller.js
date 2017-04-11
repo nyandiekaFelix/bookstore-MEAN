@@ -57,7 +57,17 @@ module.exports = {
         });
     },
 
-    getProfile: (req, res) => {
+    getAllUsers: (req, res) => {
+        User.find((err, users) => {
+            if (err) {
+                res.json(err);
+            }
+
+            res.send(users);
+        });
+    },
+
+    getOneUser: (req, res) => {
         User.findById({ _id: req.params.userId }, (err, user) => {
             if (err) {
                 res.status(404).send({
@@ -68,7 +78,7 @@ module.exports = {
         });
     },
 
-    updateProfile: (req, res) => {
+    updateUser: (req, res) => {
         User.findById(req.user, (err, user) => {
             if (!user) {
                 return res.status(400).send({
