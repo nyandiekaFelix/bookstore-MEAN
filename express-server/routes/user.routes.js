@@ -11,9 +11,9 @@ router.get('/', (req, res) => {
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 
-router.get('/:userId', userCtrl.getProfile);
-router.post('/:userId', userCtrl.updateProfile);
+router.get('/allUsers', userCtrl.getAllUsers);
 
-router.get('/:userId/uploads', userCtrl.getUserUploads);
+// router.get('/:userId', userCtrl.getOneUser);
+// router.post('/:userId', userCtrl.updateUser);
 
 module.exports = router;
