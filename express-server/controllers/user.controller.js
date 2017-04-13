@@ -22,7 +22,7 @@ module.exports = {
                 avatar: avatarUrl
             });
 
-            user.save((err, result) => { // Why result??
+            user.save((err) => {
                 if (err) {
                     res.status(500).json({
                         message: err.message
@@ -62,13 +62,12 @@ module.exports = {
             if (err) {
                 res.json(err);
             }
-
             res.send(users);
         });
     },
 
     getOneUser: (req, res) => {
-        User.findById({ _id: req.params.userId }, (err, user) => {
+        User.findById(req.params.userId, (err, user) => {
             if (err) {
                 res.status(404).send({
                     message: "Could not get user's profile details"
@@ -88,16 +87,12 @@ module.exports = {
 
             user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
-
+            
             user.save((err) => {
                 res.status(200).send({
                     message: 'Profile updated successfully'
                 });
             });
         });
-    },
-
-    getUserUploads: (req, res) => {
-        
     }
 };
