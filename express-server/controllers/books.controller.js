@@ -29,7 +29,7 @@ module.exports = {
                 if (err) {
                     res.send(err);
                 }
-                res.send(books);
+                res.json(books);
             }); 
     },
 
@@ -38,12 +38,12 @@ module.exports = {
     // },
 
     getOne: (req, res) => {
-        Book.findById({ _id: req.params.bookId }, (err, book) => {
+        Book.findById(req.params.bookId, (err, book) => {
             if (err) {
                 res.send(err)
             }
 
-            res.send(book);
+            res.json(book);
         });
     },
 
@@ -52,7 +52,9 @@ module.exports = {
 
     // },
 
-    // updateBook: (req, res) => {
-
-    // }
+    updateBook: (req, res, next) => {
+        Book.findByIdAndUpdate (req.params.bookId, (err, book) => {
+            
+        });
+    }
 };
