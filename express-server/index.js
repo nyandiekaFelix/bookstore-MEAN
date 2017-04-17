@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const path = require('path');
 
 const config = require('./config/main.js');
 const apiRoutes = require('./routes/index.js');
