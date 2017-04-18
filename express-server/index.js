@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const config = require('./config/main.js');
-const apiRoutes = require('./routes/index.js');
+const config = require('./config/main');
+const apiRoutes = require('./routes/index');
 
 const PORT = config.port;
 
