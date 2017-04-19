@@ -2,42 +2,43 @@ const User = require('../models/user.model.js');
 
 module.exports = {
 
-    getAllUsers: (req, res) => {
+    getAllUsers: (req, res, next) => {
         User.find((err, users) => {
             if (err) {
-                res.json(err);
+                return next(err);
             }
             res.status(201).json(users);
         });
     },
 
-    getOneUser: (req, res) => {
+    getOneUser: (req, res, next) => {
         User.findById(req.params.userId, (err, user) => {
             if (err) {
-                res.status(404).send({
-                    message: "Could not get user's profile details"
-                });
+                return next(err);
             }
             res.status(201).json(user);
         });
     },
 
-    updateUser: (req, res) => {
+    updateUser: (req, res, next) => {
         User.findById(req.user, (err, user) => {
-            if (!user) {
-                return res.status(400).send({
-                    message: 'User not found'
-                });
+            if (err) {
+               return next(err);
             }
 
             user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
             
             user.save((err) => {
+                if (err) {
+                    return next(err);
+                }
                 res.status(200).send({
                     message: 'Profile updated successfully'
                 });
             });
         });
-    }
+    },
+
+    deleteUser: (req, res) => {}
 };
