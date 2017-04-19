@@ -12,49 +12,69 @@ module.exports = {
 
         book.save((err) => {
             if (err) {
-                return res.status(500).json({
-                    message: err.message
-                });
+                res.status(500).send(err);
             }
-            return res.status(200).send({
+            res.status(200).json({
                 message: 'Book saved successfully'
             });
         });
     },
 
     getAllBooks: (req, res) => {
-        Book.find().sort('-uploadedOn')
-            .populate('ownerId', 'username')
-            .exec((err, books) => {
-                if (err) {
-                    res.send(err);
-                }
-                res.json(books);
-            }); 
+        Book.find({}, 'ownerId username', (err, books) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.status(200).json({ books: books });
+        }); 
     },
 
     // getByUser: (req, res) => {
 
     // },
 
-    getOne: (req, res) => {
+    getCategory: (req, res) => {
+        Book.findById(req.params.category, (err, category) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            res.status(200).json({ category: category });
+        });
+    },
+    
+    getOneBook: (req, res) => {
         Book.findById(req.params.bookId, (err, book) => {
             if (err) {
-                res.send(err)
+                res.status(500).send(err);
             }
-
-            res.json(book);
+            res.status(200).json({ book : book });
         });
     },
 
-
-    // getCategory: (req, res) => {
-
-    // },
-
     updateBook: (req, res, next) => {
-        Book.findByIdAndUpdate (req.params.bookId, (err, book) => {
-            
+        Book.findById(req.params.bookId, (err, book) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+
+            book.thumbnail = req.body.thumbnail || book.thumbnail;
+            book.title = req.body.title || book.title;
+            book.category = req.body.category || book.category;
+            book.description = req.body.description || book.description;
+            book.price = req.body.price || book.price;
+
+            book.save((err, book) => {
+                if (err) {
+                    res.status(500).send(err)
+                }
+
+                res.status(200).json({
+                    book: book,
+                    message: 'Book details updated successfully'
+                });
+            });
         });
-    }
+    },
+
+    deleteBook: (req, res) => {}
 };
