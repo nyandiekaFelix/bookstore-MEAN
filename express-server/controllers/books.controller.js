@@ -15,66 +15,57 @@ module.exports = {
                 res.status(500).send(err);
             }
             res.status(200).json({
-                message: 'Book saved successfully'
+                message: 'Book saved successfully',
+                book: book
             });
         });
     },
 
     getAllBooks: (req, res) => {
-        Book.find({}, 'ownerId username', (err, books) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-            res.status(200).json({ books: books });
-        }); 
+        Book.find({})
+            // .populate()
+            .then(books => {
+                return res.status(200).json(books);
+            })
+            .catch(err => res.status(500).json(err)); 
     },
 
-    // getByUser: (req, res) => {
-
-    // },
-
     getCategory: (req, res) => {
-        Book.findById(req.params.category, (err, category) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-            res.status(200).json({ category: category });
-        });
+        Book.findById(req.params.category).exec()
+            .then(category => {
+                return res.status(200).json(category);
+            })
+            .catch(err => res.status(500).json(err));
     },
     
     getOneBook: (req, res) => {
-        Book.findById(req.params.bookId, (err, book) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-            res.status(200).json({ book : book });
-        });
+        Book.findById(req.params.bookId)
+            .populate()
+            .exec()
+            .then(book => {
+                return res.status(200).json(book);
+            })
+            .catch(err => res.status(500).json(err));
     },
 
-    updateBook: (req, res, next) => {
-        Book.findById(req.params.bookId, (err, book) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-
-            book.thumbnail = req.body.thumbnail || book.thumbnail;
-            book.title = req.body.title || book.title;
-            book.category = req.body.category || book.category;
-            book.description = req.body.description || book.description;
-            book.price = req.body.price || book.price;
-
-            book.save((err, book) => {
-                if (err) {
-                    res.status(500).send(err)
+    updateBook: (req, res) => {
+        Book.findOneAndUpdate(req.params.bookId)
+            .exec()
+            .then(book => {
+                if(!book) {
+                    return res.status(404).json({ message: 'Book not found' });
                 }
-
-                res.status(200).json({
-                    book: book,
-                    message: 'Book details updated successfully'
-                });
-            });
-        });
+                return res.status(200).json(book);
+            })
+            .catch(err => res.status(500).json(err));
     },
 
-    deleteBook: (req, res) => {}
+    deleteBook: (req, res) => {
+        Book.findOneAndRemove(req.params.bookId)
+            .exec()
+            .then(() => {
+                return res.status(200).json({ message: 'Book deleted'});
+            })
+            .catch(err => res.status(500).json(err));
+    }
 };
