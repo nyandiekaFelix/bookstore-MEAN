@@ -4,7 +4,7 @@ const booksCtrl = require('../controllers/books.controller');
 router.get('/', booksCtrl.getAllBooks);
 
 router.post('/upload', booksCtrl.create);
-router.get('/:category', booksCtrl.getCategory);
+router.get('/category/:category', booksCtrl.getCategory);
 
 router.route('/:bookId')
     .get(booksCtrl.getOneBook)
