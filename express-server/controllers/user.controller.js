@@ -13,7 +13,7 @@ module.exports = {
     },
 
     getOneUser: (req, res) => {
-        User.findById(req.params.userId)
+        User.findById(req.params.userId, '-password')
             // .populate('books') 
             .exec()
             .then(user => {
