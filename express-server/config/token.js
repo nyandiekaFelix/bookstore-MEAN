@@ -1,5 +1,8 @@
-const config = require('./main.js');
 const jwt = require('jsonwebtoken');
+const config = require('./main.js');
+
+
+// require('passport-local');
 
 
 module.exports = {
@@ -9,7 +12,7 @@ module.exports = {
         });
     },
 
-    ensureAuthenticated: (req, res, next) => {
+    /*ensureAuthenticated: (req, res, next) => {
         if (!req.header('Authorization')) {
             return res.status(401).send({
                 message: 'The request made does not have an authorization header'
@@ -33,8 +36,5 @@ module.exports = {
                 message: 'Token has expired'
             });
         }
-
-        /* Analyse, Combine, be awesome*/
-        req.user = pa
-    }
+    }*/
 };
