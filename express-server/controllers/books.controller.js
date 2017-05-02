@@ -40,7 +40,7 @@ module.exports = {
     
     getOneBook: (req, res) => {
         Book.findById(req.params.bookId)
-            .populate()
+            // .populate()
             .exec()
             .then(book => {
                 if (!book) {
@@ -62,7 +62,7 @@ module.exports = {
             })
             .catch(err => res.status(500).json(err));
     },
-
+ 
     deleteBook: (req, res) => {
         Book.findOneAndRemove(req.params.bookId)
             .exec()
