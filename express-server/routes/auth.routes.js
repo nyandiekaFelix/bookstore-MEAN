@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/login', authCtrl.login);
-router.post('/signup', authCtrl.signup);
+router.post('/login', authCtrl.loginUser);
+router.post('/signup', authCtrl.registerUser);
 
 module.exports = router;
