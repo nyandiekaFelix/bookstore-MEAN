@@ -1,15 +1,21 @@
 const router = require('express').Router();
+const passport = require('passport');
+
 const booksCtrl = require('../controllers/books.controller');
+const passportService = require('../config/passport');
+
+const requireAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/', booksCtrl.getAllBooks);
 
-router.post('/upload', booksCtrl.create);
+router.post('/upload', requireAuth, booksCtrl.create);
+
 router.get('/category/:category', booksCtrl.getCategory);
 
 router.route('/:bookId')
-    .get(booksCtrl.getOneBook)
-    .put(booksCtrl.updateBook)
-    .delete(booksCtrl.deleteBook);
+    .get(requireAuth, booksCtrl.getOneBook)
+    .put(requireAuth, booksCtrl.updateBook)
+    .delete(requireAuth, booksCtrl.deleteBook);
     
 module.exports = router;
 
