@@ -1,12 +1,16 @@
 const router = require('express').Router();
+const passport = require('passport');
 
 const userCtrl = require('../controllers/user.controller');
+const passportService = require('../config/passport');
 
-router.get('/', userCtrl.getAllUsers);
+const requireAuth = passport.authenticate('jwt', { session: false });
+
+router.get('/', userCtrl.getAllUsers); // only admin
 
 router.route('/:userId')
-    .get(userCtrl.getOneUser)
-    .put(userCtrl.updateUser)
-    .delete(userCtrl.deleteUser);
+    .get(requireAuth, userCtrl.getOneUser)
+    .put(requireAuth, userCtrl.updateUser)
+    .delete(requireAuth, userCtrl.deleteUser);
 
 module.exports = router;
