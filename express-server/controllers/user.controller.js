@@ -1,26 +1,38 @@
 const User = require('../models/user.model');
+const helpers = require('../helpers');
 
 module.exports = {
 
     getAllUsers: (req, res) => {
         User.find({}, '-password')
-            // .populate('books') -> to return all books posted by users
             .exec()
             .then(users => {
-                return res.status(200).json(users);
+                if (!users) {
+                    return res.status(404).json({
+                        message: 'No users found'
+                    });
+                }
+                return res.status(200).json({ 
+                    users: users 
+                });
             })
             .catch(err => res.status(500).json(err));
     },
 
     getOneUser: (req, res) => {
-        User.findById(req.params.userId, '-password')
+        User.findById(req.params.userId)
             // .populate('books') 
             .exec()
             .then(user => {
                 if (!user) {
-                    return res.status(404).json({ message: 'User not found'});
+                    return res.status(404).json({ 
+                        message: 'User not found'
+                    });
                 }
-                return res.status(200).json(user);
+                const detailsToReturn = helpers.setUserInfo(user);
+                return res.status(200).json({
+                    user: detailsToReturn
+                });
             })
             .catch(err => res.status(500).json(err));
     },
@@ -30,9 +42,14 @@ module.exports = {
             .exec()
             .then(user => {
                 if (!user) {
-                    return res.status(404).json({message: 'User not found'});
+                    return res.status(404).json({
+                        message: 'User not found'
+                    });
                 }
-                return res.status(200).json(user);
+                const userToReturn = helpers.setUserInfo(user);
+                return res.status(200).json({
+                    user: userToReturn
+                });
             })
             .catch(err => res.status(500).json(err));
     },
@@ -41,7 +58,9 @@ module.exports = {
         User.findOneAndRemove(req.params.userId)
             .exec()
             .then(() => {
-                return res.status(200).json({ message: 'User deleted'});
+                return res.status(200).json({ 
+                    message: 'User deleted'
+                });
             })
             .catch(err => res.status(500).json(err));
     }
