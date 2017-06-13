@@ -4,7 +4,7 @@ const helpers = require('../helpers');
 module.exports = {
 
     getAllUsers: (req, res) => {
-        User.find({}, '-password')
+        User.find({})
             .exec()
             .then(users => {
                 if (!users) {
@@ -12,8 +12,16 @@ module.exports = {
                         message: 'No users found'
                     });
                 }
-                return res.status(200).json({ 
-                    users: users 
+
+                const trimmedDetails = [];
+
+                users.forEach((user) => {
+                    const userDetails = helpers.setUserInfo(user);
+                    trimmedDetails.push(userDetails);
+                });
+
+                return res.status(200).json({
+                    users: trimmedDetails
                 });
             })
             .catch(err => res.status(500).json(err));
