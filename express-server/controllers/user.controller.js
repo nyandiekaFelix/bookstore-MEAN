@@ -13,15 +13,15 @@ module.exports = {
                     });
                 }
 
-                const trimmedDetails = [];
+                const usersToReturn = [];
 
                 users.forEach((user) => {
                     const userDetails = helpers.setUserInfo(user);
-                    trimmedDetails.push(userDetails);
+                    usersToReturn.push(userDetails);
                 });
 
                 return res.status(200).json({
-                    users: trimmedDetails
+                    users: usersToReturn
                 });
             })
             .catch(err => res.status(500).json(err));
