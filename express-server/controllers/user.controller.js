@@ -72,7 +72,7 @@ module.exports = {
             })
             .then(updatedDoc => {
                 const detailsToReturn = helpers.setUserInfo(updatedDoc);
-                res.status(201).json({
+                res.status(200).json({
                     user: detailsToReturn
                 });
             })
