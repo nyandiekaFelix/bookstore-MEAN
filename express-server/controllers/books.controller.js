@@ -56,26 +56,32 @@ module.exports = {
             .exec()
             .then(book => {
                 if(!book) {
-                    return res.status(404).json({ message: 'Book not found' });
+                    return res.status(404).
+                    json({ message: 'Book not found' });
                 }
 
-                book = {
-                    thumbnail: req.body.thumbnail || book.thumbnail,
-                    title: req.body.title || book.title,
-                    category: req.body.category || book.category,
-                    description: req.body.description || book.description,
-                    price: req.body.price || book.price
+                updatedBook = {
+                    thumbnail: req.body.thumbnail || 
+                    book.thumbnail,
+                    title: req.body.title || 
+                    book.title,
+                    category: req.body.category || 
+                    book.category,
+                    description: req.body.description || 
+                    book.description,
+                    price: req.body.price || 
+                    book.price
                 };
 
-                book.save((err) => {
-                    if (err) {
-                        res.status(500).send(err);
-                    }
-                    res.status(200).json({
-                        message: 'Book updated successfully',
-                        book: book
-                    });
-                });
+                return Object.assign(book, updateBook);
+            })
+            .then(book => {
+                return book.save;
+            })
+            .then( updatedDoc => {
+                res.status(200).json({
+                    book: updatedDoc
+                })
             })
             .catch(err => res.status(500).json(err));
     },
