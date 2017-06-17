@@ -62,9 +62,15 @@ module.exports = {
                     }
                 };
 
-                const userToReturn = helpers.setUserInfo(user);
-                return res.status(200).json({
-                    user: userToReturn
+                user.save((err) => {
+                    if (err) {
+                        res.status(500).send(err);
+                    }
+                    
+                    const detailsToReturn = helpers.setUserInfo(user);
+                    res.status(201).send({
+                        user: detailsToReturn
+                    });
                 });
             })
             .catch(err => res.status(500).json(err));
