@@ -46,7 +46,7 @@ module.exports = {
     },
 
     updateUser: (req, res) => {
-        User.findOneAndUpdate(req.params.userId)
+        User.findById(req.params.userId)
             .exec()
             .then(user => {
                 if (!user) {
@@ -54,6 +54,14 @@ module.exports = {
                         message: 'User not found'
                     });
                 }
+
+                user = {
+                    profile: {
+                        firstName: req.body.firstName || user.profile.firstName,
+                        lastName: req.body.lastName || user.profile.lastName
+                    }
+                };
+
                 const userToReturn = helpers.setUserInfo(user);
                 return res.status(200).json({
                     user: userToReturn
