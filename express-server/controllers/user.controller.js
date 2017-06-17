@@ -55,22 +55,25 @@ module.exports = {
                     });
                 }
 
-                user = {
+                updatedUser = {
                     profile: {
-                        firstName: req.body.firstName || user.profile.firstName,
-                        lastName: req.body.lastName || user.profile.lastName
-                    }
+                        firstName: req.body.firstName || 
+                        user.profile.firstName,
+                        lastName: req.body.lastName || 
+                        user.profile.lastName
+                    },
+                    email: req.body.email || user.email
                 };
 
-                user.save((err) => {
-                    if (err) {
-                        res.status(500).send(err);
-                    }
-                    
-                    const detailsToReturn = helpers.setUserInfo(user);
-                    res.status(201).send({
-                        user: detailsToReturn
-                    });
+                return Object.assign(user, updatedUser);
+            })
+            .then(user => {
+                return user.save();
+            })
+            .then(updatedDoc => {
+                const detailsToReturn = helpers.setUserInfo(updatedDoc);
+                res.status(201).json({
+                    user: detailsToReturn
                 });
             })
             .catch(err => res.status(500).json(err));
