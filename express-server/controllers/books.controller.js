@@ -76,7 +76,7 @@ module.exports = {
                 return Object.assign(book, updateBook);
             })
             .then(book => {
-                return book.save;
+                return book.save();
             })
             .then( updatedDoc => {
                 res.status(200).json({
