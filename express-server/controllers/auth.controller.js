@@ -28,11 +28,11 @@ module.exports = {
                 const user = new User({
                     profile: {
                         firstName: req.body.firstName,
-                        lastName: req.body.lastName
+                        lastName: req.body.lastName,
+                        avatar: avatarUrl
                     },
                     email: req.body.email,
-                    password: req.body.password,
-                    avatar: avatarUrl
+                    password: req.body.password
                 });
 
                 

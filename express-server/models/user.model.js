@@ -12,17 +12,17 @@ const UserSchema = new Schema({
 		lastName:{ 
 			type: String,
 			required: true
-		} 
+		},
+		avatar: {
+			type: String,
+			default: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
+		}
 	},
 	email: {
 		type: String,
 		required: true,
 		unique: true,
 		lowercase: true
-	},
-	avatar: {
-		type: String,
-		default: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
 	},
 	password: {
 		type: String,
