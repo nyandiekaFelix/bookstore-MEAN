@@ -73,7 +73,7 @@ module.exports = {
                     book.price
                 };
 
-                return Object.assign(book, updateBook);
+                return Object.assign(book, updatedBook);
             })
             .then(book => {
                 return book.save();
