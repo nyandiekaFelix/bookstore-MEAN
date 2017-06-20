@@ -60,7 +60,7 @@ module.exports = {
                     json({ message: 'Book not found' });
                 }
 
-                updatedBook = {
+                const updatedBook = {
                     thumbnail: req.body.thumbnail || 
                     book.thumbnail,
                     title: req.body.title || 
