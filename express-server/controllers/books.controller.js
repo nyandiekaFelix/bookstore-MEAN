@@ -2,22 +2,21 @@ const Book = require('../models/books.model');
 
 module.exports = {
     create: (req, res) => {
-        const book = new Book({
-            // thumbnail: req.body.thumbnail,
+        return new Book({
             title: req.body.title,
             description: req.body.description,
             category: req.body.category,
             price: req.body.price
-        });
-
-        book.save((err) => {
-            if (err) {
-                res.status(500).send(err);
-            }
+        })
+        .save()
+        .then(book => {
             res.status(200).json({
                 message: 'Book saved successfully',
                 book: book
             });
+        })
+        .catch(err => {
+            return res.status(500).json(err);
         });
     },
 
@@ -52,33 +51,16 @@ module.exports = {
     },
 
     updateBook: (req, res) => {
-        Book.findById(req.params.bookId)
+        const updatedBook = {
+            title: req.body.title,
+            category: req.body.category,
+            description: req.body.description,
+            price: req.body.price
+        };
+
+        return Book.findOneAndUpdate(req.params.bookId, updatedBook, { new: true })
             .exec()
-            .then(book => {
-                if(!book) {
-                    return res.status(404).
-                    json({ message: 'Book not found' });
-                }
-
-                const updatedBook = {
-                    thumbnail: req.body.thumbnail || 
-                    book.thumbnail,
-                    title: req.body.title || 
-                    book.title,
-                    category: req.body.category || 
-                    book.category,
-                    description: req.body.description || 
-                    book.description,
-                    price: req.body.price || 
-                    book.price
-                };
-
-                return Object.assign(book, updatedBook);
-            })
-            .then(book => {
-                return book.save();
-            })
-            .then( updatedDoc => {
+            .then(updatedDoc => {
                 res.status(200).json({
                     book: updatedDoc
                 })
