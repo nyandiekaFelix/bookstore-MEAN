@@ -51,19 +51,36 @@ module.exports = {
     },
 
     updateBook: (req, res) => {
-        const updatedBook = {
-            title: req.body.title,
-            category: req.body.category,
-            description: req.body.description,
-            price: req.body.price
-        };
-
-        return Book.findOneAndUpdate(req.params.bookId, updatedBook, { new: true })
+        Book.findById(req.params.bookId)
             .exec()
+            .then((book) => {
+                if(!book) {
+                    return res.status(404).json({
+                        message: 'Book not found'
+                    })
+                }
+
+                const updatedBook = {
+                    title: req.body.title || 
+                    book.title,
+                    category: req.body.category || 
+                    book.category,
+                    description: req.body.description ||
+                    book.description,
+                    price: req.body.price ||
+                    book.price
+                };
+
+                return Object.assign(book, updatedBook);
+            })
+            .then(book => {
+                return book.save();
+            })
             .then(updatedDoc => {
                 res.status(200).json({
+                    message: 'Book saved successfully',
                     book: updatedDoc
-                })
+                });
             })
             .catch(err => res.status(500).json(err));
     },
