@@ -43,7 +43,9 @@ module.exports = {
             .exec()
             .then(book => {
                 if (!book) {
-                    return res.status(404).json({ message: 'Book not found' });
+                    return res.status(404).json({ 
+                        message: 'Book not found' 
+                    });
                 }
                 return res.status(200).json(book);
             })
@@ -89,7 +91,9 @@ module.exports = {
         Book.findOneAndRemove(req.params.bookId)
             .exec()
             .then(() => {
-                return res.status(200).json({ message: 'Book deleted'});
+                return res.status(200).json({ 
+                    message: 'Book deleted'
+                });
             })
             .catch(err => res.status(500).json(err));
     }
