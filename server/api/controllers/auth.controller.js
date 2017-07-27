@@ -1,7 +1,7 @@
 const jwt =  require('jsonwebtoken');
 const gravatar = require('gravatar');
 
-const config = require('../config/main');
+const config = require('../../config/main');
 const User = require('../models/user.model');
 
 const helpers = require('../helpers');

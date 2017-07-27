@@ -1,10 +1,10 @@
-import { AngularClientPage } from './app.po';
+import { BookstoreMeanPage } from './app.po';
 
-describe('angular-client App', () => {
-  let page: AngularClientPage;
+describe('bookstore-mean App', () => {
+  let page: BookstoreMeanPage;
 
   beforeEach(() => {
-    page = new AngularClientPage();
+    page = new BookstoreMeanPage();
   });
 
   it('should display message saying app works', () => {
